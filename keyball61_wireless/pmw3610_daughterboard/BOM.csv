@@ -1,0 +1,16 @@
+Ref,Value,Footprint,LCSC,Qty,Notes
+U1,PMW3610DM-SUDU,pmw3610_kb:PMW3610DM-SUDU,C42442560,1,Optical sensor; buy with LM18-LSI lens as a set
+U2,TLV74318PDBVR,Package_TO_SOT_SMD:SOT-23-5,C485152,1,1.8V LDO
+C1,3.3uF/16V,Capacitor_SMD:C_0805_2012Metric,C7393948,1,VDD bulk
+C2,100nF,Capacitor_SMD:C_0603_1608Metric,C14663,1,VDD decouple
+C3,100nF,Capacitor_SMD:C_0603_1608Metric,C14663,1,VDDIO decouple
+C4,100nF,Capacitor_SMD:C_0603_1608Metric,C14663,1,sensor bulk (near pins)
+C5,10nF,Capacitor_SMD:C_0603_1608Metric,C57112,1,charge pump CP-CN
+C6,10uF,Capacitor_SMD:C_0805_2012Metric,C15850,1,PASS_T
+C7,10nF,Capacitor_SMD:C_0603_1608Metric,C57112,1,VCP
+C8,1uF,Capacitor_SMD:C_0603_1608Metric,C15849,1,LDO IN
+C9,1uF,Capacitor_SMD:C_0603_1608Metric,C15849,1,LDO OUT
+R1,10k,Resistor_SMD:R_0603_1608Metric,C25804,1,NRESET pull-up to +3V3
+R2,10k,Resistor_SMD:R_0603_1608Metric,C25804,1,MOTION pull-up (DNP - use nice!nano internal pull-up)
+J1,Conn_Keyball_8pin,pmw3610_kb:Conn_Keyball_8pin,,1,8-pin 2.54mm to main board; MOTION on pin 6
+LENS,LM18-LSI,,,1,PixArt lens for PMW3610; buy bundled with U1

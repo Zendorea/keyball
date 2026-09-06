@@ -1,0 +1,6 @@
+{
+  "board": {"design_settings": {"defaults": {"board_thickness": 1.6}}},
+  "meta": {"filename": "pmw3610_daughterboard.kicad_pro", "version": 1},
+  "libraries": {"pinned_footprint_libs": [], "pinned_symbol_libs": []},
+  "pcbnew": {"page_layout_descr_file": ""}
+}

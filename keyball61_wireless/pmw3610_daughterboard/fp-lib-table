@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "pmw3610_kb")(type "KiCad")(uri "${KIPRJMOD}/pmw3610_kb.pretty")(options "")(descr "PMW3610 daughterboard custom footprints"))
+)
