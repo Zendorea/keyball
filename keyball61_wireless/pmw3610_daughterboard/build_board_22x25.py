@@ -50,9 +50,9 @@ SUPPORT = [
     ("C2","Capacitor_SMD","C_0603_1608Metric", 20.3, 18.5, 90, "100nF","F"),   # +1V8 decouple
     # BACK side (under the pins): bulk 0805s + DNP MOTION pull-up. Above connector,
     # so they don't foul the 90-degree main-board joint. Back-side = shortest loop.
-    ("C1","Capacitor_SMD","C_0805_2012Metric", 8.5,  9.5,  0, "3.3uF","F"),   # +1V8 bulk (top-center, staggered off columns)
-    ("C6","Capacitor_SMD","C_0805_2012Metric", 13.5, 9.5,  0, "10uF","F"),    # PASST bulk (top-center)
-    ("R2","Resistor_SMD","R_0603_1608Metric",  11.0, 7.2,  0, "10k","F"),      # MOTION pull(DNP), top row clear of slot
+    ("C1","Capacitor_SMD","C_0805_2012Metric", 9.0,  7.5, 0, "3.3uF","F"),   # +1V8 bulk, band below sensor pins
+    ("C6","Capacitor_SMD","C_0805_2012Metric", 13.0, 7.5, 0, "10uF","F"),    # PASST bulk, band below sensor pins
+    ("R2","Resistor_SMD","R_0603_1608Metric",  16.0, 7.5, 0, "10k","F"),      # MOTION pull(DNP)
 ]
 SUP_NETS = {
     "U2":{"1":"VCC","2":"GND","3":"VCC","5":"+1V8"},
