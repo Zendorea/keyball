@@ -8,7 +8,9 @@ mounting. DRC-clean.
 - Outline: 23.0 x 25.0 mm (original 22x25 + 1mm on the right so the MOTION hole
   sits on the connector's 2.54mm pitch at full pad size). 1.0mm thick, 2-layer.
 - Optics: lens slot open to the top edge, sized to the LM18-LSI lens body
-  (8.25 x 12.9mm), between the sensor pin columns. Guide-post hole (GP1, Ø0.9mm).
+  (8.25 x 12.9mm), between the sensor pin columns. No PCB lens-alignment hole:
+  the LM18-LSI guide posts lock into the sensor package, not the PCB (per the
+  PMW3610 datasheet Fig 5 and the siderakb/badjeff reference boards).
   PMW3610 sensor optical center at original ball-facing position.
 - Connector: stock Keyball 7-pin (SCLK,SDIO,GND,VCC,GND,NCS,NRESET) at the EXACT
   original 2.54mm-pitch positions -> drops into a stock Keyball main board.
@@ -33,17 +35,17 @@ mounting. DRC-clean.
   Freerouting (headless, -mt 1, --router.via_costs=30, -inc GND for pour route)
   import_ses.py          -> import routed session
   pour_gnd.py            -> B.Cu GND pour (solid pad connection)
-  finish_22x25.py        -> GND stitching vias + guide-post hole
+  finish_22x25.py        -> GND stitching vias; fill zones last
   kicad-cli pcb drc / export gerbers,drill
 
 ## DRC status
-0 unrouted, 0 unconnected, 0 electrical violations. 4 courtyard_overlap
+0 unrouted, 0 unconnected, 0 electrical violations. 5 courtyard_overlap
 advisories remain (IPC keep-out for rework room, NOT fab-blocking; JLCPCB/PCBway
 build fine). See board_final.png.
 
 ## Fab (PCBway)
-2-layer, 1.0mm, HASL, qty 5-10. Upload pmw3610_daughterboard_gerbers.zip.
+2-layer, 1.0mm, ENIG, qty 5. Upload pmw3610_daughterboard_gerbers.zip.
 
 ## Verify before ordering
 1. Sensor/lens standoff vs your trackball housing (base-plate sets focus).
-2. GP1 guide-post position vs your actual LM18-LSI lens posts.
+2. Trackball connector CS/IRQ vs your holykeebs rev2 PCB silk (rev1≈rev2).

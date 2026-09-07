@@ -1,43 +1,38 @@
-# Keyball Series
+# Keyball61 Wireless (PMW3610 / nice!nano / ZMK)
 
-![Keyball61](./keyball61/doc/rev1/images/kb61_001.jpg)
+A fork of [Yowkees/keyball](https://github.com/Yowkees/keyball) for converting a
+**Keyball61** (holykeebs Keyball61 rev2) to a **fully wireless** build:
+**nice!nano v2 + ZMK**, with the power-hungry PMW3360 trackball sensor replaced by
+the low-power **PMW3610**.
 
-Keyball series is keyboard family which have 100% track ball.
+This fork holds the **hardware** side of that conversion — the custom PMW3610
+sensor daughterboard. The **firmware** (ZMK) lives in a separate repo.
 
-Keyboards in the family are:
+## What's here
 
-* Available
-    * Keyball39: split + 39 keys + a track ball
-    * Keyball44: split + 44 keys + a track ball
-    * Keyball61: split + 61 keys + a track ball
-* Unavailable
-    * Keyball46 (first one!)
-    * One47
+- **[`keyball61_wireless/pmw3610_daughterboard/`](keyball61_wireless/pmw3610_daughterboard/)**
+  — the PMW3610 trackball daughterboard: KiCad source, reproducible build
+  pipeline, DRC-clean gerbers (ordered from PCBway), BOM, and full design notes.
+  A drop-in replacement for the stock Keyball61 ball-reader board that keeps the
+  original 7-pin connector and adds a MOTION interrupt line. **See its README.**
+- **`keyball61/`** — the upstream Yowkees Keyball61 hardware design data (kept for
+  reference: case, PCB, dimensions the daughterboard indexes to).
 
-## Where to Buy
+## Firmware (separate repo)
 
-|Keyboard   |Shirogane Lab / 白銀ラボ                                   |Yushakobo / 遊舎工房                       |
-|-----------|-------------------------------------------|-----------------------------------------------------------|
-|Keyball39  |<https://shiroganelab.com/products/keyball39> |<https://shop.yushakobo.jp/products/5357>  |
-|Keyball44  |<https://shiroganelab.com/products/keyball44> |<https://shop.yushakobo.jp/products/8337>  |
-|Keyball61  |<https://shiroganelab.com/products/keyball61> |<https://shop.yushakobo.jp/products/5358>  |
+The wireless ZMK config is **`zmk-config-keyball61-wireless`** (standalone, as ZMK
+configs must be). Trackball on `&spi1`: SCK P1.13, SDIO P0.10 (3-wire), CS P0.09,
+MOTION P1.11, 2 MHz — based on the proven `tangbonze/zmk-config-Keyball61`.
 
-## Build Guide
+## Project status
 
-*   Keyball39:
-    [English/英語](/keyball39/doc/rev1/buildguide_en.md),
-    [日本語/Japanese](./keyball39/doc/rev1/buildguide_jp.md)
-*   Keyball44:
-    [English/英語](./keyball44/doc/rev1/buildguide_en.md),
-    [日本語/Japanese](./keyball44/doc/rev1/buildguide_jp.md)
-*   Keyball61:
-    [English/英語](./keyball61/doc/rev1/buildguide_en.md),
-    [日本語/Japanese](./keyball61/doc/rev1/buildguide_jp.md)
+- ✅ Daughterboard: designed, DRC-clean, gerbers ordered (PCBway, ENIG, 1.0 mm)
+- ✅ Parts sourced: PMW3610+LM18-LSI (AliExpress), passives/LDO (LCSC), 34 mm ball
+- ✅ ZMK config: built (separate repo)
+- ⬜ Assemble + flash when hardware arrives
+- ⬜ (optional) main-board fork: nice!nano + nice!view
 
-## Firmware
+## Credits
 
-See [document for firmware source code](./qmk_firmware/keyboards/keyball/readme.md).
-
-### Pre-compiled Firmwares
-
-(TO BE DOCUMENTED)
+Base keyboard design © [Yowkees / Keyball](https://github.com/Yowkees/keyball)
+(see `LICENSE`). PMW3610 reference designs: siderakb / badjeff. Kit: holykeebs.
