@@ -1,1 +1,6 @@
 tmp/
+
+# KiCad local state / backups
+*.kicad_prl
+*-backups/
+fp-info-cache
