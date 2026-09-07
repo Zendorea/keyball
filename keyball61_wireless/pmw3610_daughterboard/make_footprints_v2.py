@@ -43,9 +43,10 @@ def rect(fp, w, h, cx, cy, layer="F.SilkS", width=0.12):
     line(fp, x1, y1, x0, y1, layer, width); line(fp, x0, y1, x0, y0, layer, width)
 
 
-def txt(fp, t, s, x, y, layer):
+def txt(fp, t, s, x, y, layer, h=0.6):
     fp.graphicItems.append(FpText(type=t, text=s, position=Position(x, y),
-                                  layer=layer, effects=Effects(font=Font())))
+                                  layer=layer,
+                                  effects=Effects(font=Font(height=h, width=h, thickness=h*0.15))))
 
 
 def new_fp(entry, kind="through_hole"):
@@ -63,13 +64,11 @@ def make_conn7_stock():
     fp = new_fp("Conn_Keyball_7pin_stock")
     xs = {"1": -7.62, "2": -5.08, "3": -2.54, "4": 0.0, "5": 2.54, "6": 5.08, "7": 7.62}
     # stock Keyball J2 net order: P1/P2/P6/P7 data, P3/P5 GND, P4 VCC.
-    nets = {"1":"SCLK","2":"SDIO","3":"GND","4":"VCC","5":"GND","6":"NCS","7":"NRESET"}
+    nets = {"1":"CK","2":"IO","3":"G","4":"V","5":"G","6":"CS","7":"RST"}
     for num in ["1","2","3","4","5","6","7"]:
         fp.pads.append(th_pad(num, xs[num], 0.0, drill=0.9, size=1.5,
                               shape="rect" if num=="1" else "circle"))
-        txt(fp, "user", nets[num], xs[num], -1.8, "F.SilkS")
-    rect(fp, 7*2.54 + 2.0, 3.0, 0, 0, layer="F.SilkS")
-    txt(fp, "user", "stock Keyball 7-pin (MOTION = separate pad)", 0, 2.6, "F.Fab")
+        txt(fp, "user", nets[num], xs[num], -1.6, "F.SilkS", h=0.5)
     return fp
 
 
@@ -79,8 +78,7 @@ def make_motion_pad():
     board (routed trace to the pad)."""
     fp = new_fp("MOTION_solder_pad")
     fp.pads.append(th_pad("1", 0.0, 0.0, drill=0.9, size=1.5, shape="circle"))
-    txt(fp, "user", "MOT", 0, -1.6, "F.SilkS")
-    txt(fp, "user", "MOTION -> nice!nano GPIO (P0.31)", 0, 1.8, "F.Fab")
+    txt(fp, "user", "MOT", 0, -1.6, "F.SilkS", h=0.5)
     return fp
 
 

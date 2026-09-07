@@ -26,20 +26,9 @@ for fi in range(len(fps)):
             try: p.SetZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
             except Exception: pass
 
-# guide-post hole (Ø0.9mm NPTH) below the lens slot, added post-route so it does
-# not break the Specctra SES round-trip (a netless NPTH footprint fails import)
-try:
-    fp = pcbnew.FOOTPRINT(b)
-    pad = pcbnew.PAD(fp); pad.SetAttribute(pcbnew.PAD_ATTRIB_NPTH)
-    pad.SetShape(pcbnew.PAD_SHAPE_CIRCLE); pad.SetSize(pcbnew.VECTOR2I(mm(0.9), mm(0.9)))
-    pad.SetDrillSize(pcbnew.VECTOR2I(mm(0.9), mm(0.9)))
-    pad.SetPosition(pcbnew.VECTOR2I(mm(11.0), mm(10.15)))
-    pad.SetLayerSet(pad.UnplatedHoleMask())
-    fp.Add(pad); fp.SetPosition(pcbnew.VECTOR2I(mm(11.0), mm(10.15)))
-    fp.SetReference("GP1")
-    b.Add(fp)
-except Exception as e:
-    print("guide-post note:", e)
+# NO guide-post / lens-alignment hole: per PMW3610 datasheet Fig 5 and the
+# LM18-LSI datasheet, the lens guide posts lock into the SENSOR PACKAGE, not the
+# PCB. Both siderakb & badjeff reference boards have zero lens-alignment holes.
 # fill zones LAST so the pour clears the guide-post hole
 pcbnew.ZONE_FILLER(b).Fill(b.Zones())
 b.Save(sys.argv[1])

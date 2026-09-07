@@ -107,6 +107,7 @@ def main():
         fp.Add(pad); fp.SetPosition(pcbnew.VECTOR2I(mm(x),mm(y)))
         board.Add(fp)
     #npth(LCX, SB-0.9)   # guide post just below the slot
+    # (No lens-alignment keepout: no PCB lens holes are needed — see finish_22x25.py.)
     def place(ref,libpath,entry,x,y,rot,value,padnets=None,back=False):
         fp=pcbnew.FootprintLoad(libpath,entry)
         if fp is None: raise RuntimeError(f"missing {libpath}:{entry}")
@@ -121,6 +122,15 @@ def main():
         for pad in fp.Pads():
             net=(padnets or {}).get(pad.GetName())
             if net: pad.SetNetCode(code(net))
+        # shrink the reference-designator silk so labels don't overlap/clutter
+        try:
+            rt=fp.Reference()
+            rt.SetTextSize(pcbnew.VECTOR2I(mm(0.6), mm(0.6)))
+            rt.SetTextThickness(mm(0.1))
+            # top-band parts: put their ref label BELOW the part (clear of connector)
+            if ref in ("U2","C1","C6","R2"):
+                rt.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y+2.0)))
+        except Exception: pass
     place("U1", PRETTY, "PMW3610DM-SUDU-siderakb", SENS_X, SENS_Y, 90, "PMW3610DM-SUDU", U1_NETS)
     place("J1", PRETTY, "Conn_Keyball_7pin_stock", 11.0, CONN_Y, 0, "Conn_Keyball_7pin", CONN_NET)
     # separate MOTION solder pad near U1 pin8 (top-right area) for the wire

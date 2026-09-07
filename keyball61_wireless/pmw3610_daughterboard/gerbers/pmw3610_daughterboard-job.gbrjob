@@ -5,7 +5,7 @@
       "Application": "Pcbnew",
       "Version": "10.0.6"
     },
-    "CreationDate": "2026-09-06T20:18:22-07:00"
+    "CreationDate": "2026-09-06T20:56:08-07:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
@@ -27,7 +27,7 @@
       "PadToPad": 0.15,
       "PadToTrack": 0.15,
       "TrackToTrack": 0.15,
-      "MinLineWidth": 0.2,
+      "MinLineWidth": 0.15,
       "TrackToRegion": 0.5,
       "RegionToRegion": 0.5
     }
@@ -62,11 +62,6 @@
       "Path": "pmw3610_daughterboard-B_Mask.gbr",
       "FileFunction": "SolderMask,Bot",
       "FilePolarity": "Negative"
-    },
-    {
-      "Path": "pmw3610_daughterboard-Edge_Cuts.gbr",
-      "FileFunction": "Profile",
-      "FilePolarity": "Positive"
     }
   ],
   "MaterialStackup": [

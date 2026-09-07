@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-09-06T20:17:16",
+    "date": "2026-09-06T20:21:40",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -36,35 +36,12 @@
             "description": "Courtyards overlap",
             "items": [
                 {
-                    "description": "Footprint U1",
-                    "pos": {
-                        "x": 11.0,
-                        "y": 17.0
-                    },
-                    "uuid": "1c55d88b-c26e-41d0-98c9-88cf5adaa18e"
-                },
-                {
                     "description": "Footprint C6",
                     "pos": {
                         "x": 13.0,
                         "y": 7.5
                     },
-                    "uuid": "7adad031-eb9c-412e-8b4d-fd5257bea2c7"
-                }
-            ],
-            "severity": "error",
-            "type": "courtyards_overlap"
-        },
-        {
-            "description": "Courtyards overlap",
-            "items": [
-                {
-                    "description": "Footprint U1",
-                    "pos": {
-                        "x": 11.0,
-                        "y": 17.0
-                    },
-                    "uuid": "1c55d88b-c26e-41d0-98c9-88cf5adaa18e"
+                    "uuid": "0c57c034-c0d8-49c3-8183-9e7c6960b969"
                 },
                 {
                     "description": "Footprint R2",
@@ -72,7 +49,7 @@
                         "x": 16.0,
                         "y": 7.5
                     },
-                    "uuid": "ca0ec557-c5e1-4631-8e49-1199d9cd0425"
+                    "uuid": "17acd488-87c1-4e1f-ad29-5fa6a121032b"
                 }
             ],
             "severity": "error",
@@ -82,20 +59,66 @@
             "description": "Courtyards overlap",
             "items": [
                 {
+                    "description": "Footprint C6",
+                    "pos": {
+                        "x": 13.0,
+                        "y": 7.5
+                    },
+                    "uuid": "0c57c034-c0d8-49c3-8183-9e7c6960b969"
+                },
+                {
                     "description": "Footprint U1",
                     "pos": {
                         "x": 11.0,
                         "y": 17.0
                     },
-                    "uuid": "1c55d88b-c26e-41d0-98c9-88cf5adaa18e"
+                    "uuid": "69788f59-6835-482a-acad-84611aca00d8"
+                }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+        },
+        {
+            "description": "Courtyards overlap",
+            "items": [
+                {
+                    "description": "Footprint R2",
+                    "pos": {
+                        "x": 16.0,
+                        "y": 7.5
+                    },
+                    "uuid": "17acd488-87c1-4e1f-ad29-5fa6a121032b"
                 },
+                {
+                    "description": "Footprint U1",
+                    "pos": {
+                        "x": 11.0,
+                        "y": 17.0
+                    },
+                    "uuid": "69788f59-6835-482a-acad-84611aca00d8"
+                }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+        },
+        {
+            "description": "Courtyards overlap",
+            "items": [
                 {
                     "description": "Footprint U2",
                     "pos": {
                         "x": 4.5,
                         "y": 8.3
                     },
-                    "uuid": "cee6d34f-9412-4653-b418-9183e646f128"
+                    "uuid": "5c694af2-9d9c-4108-8bf9-71d9c46f75e0"
+                },
+                {
+                    "description": "Footprint U1",
+                    "pos": {
+                        "x": 11.0,
+                        "y": 17.0
+                    },
+                    "uuid": "69788f59-6835-482a-acad-84611aca00d8"
                 }
             ],
             "severity": "error",
@@ -110,7 +133,7 @@
                         "x": 11.0,
                         "y": 17.0
                     },
-                    "uuid": "1c55d88b-c26e-41d0-98c9-88cf5adaa18e"
+                    "uuid": "69788f59-6835-482a-acad-84611aca00d8"
                 },
                 {
                     "description": "Footprint C1",
@@ -118,30 +141,7 @@
                         "x": 9.0,
                         "y": 7.5
                     },
-                    "uuid": "d5145d19-8a6a-4d6e-98f8-a433aeff1fa2"
-                }
-            ],
-            "severity": "error",
-            "type": "courtyards_overlap"
-        },
-        {
-            "description": "Courtyards overlap",
-            "items": [
-                {
-                    "description": "Footprint C6",
-                    "pos": {
-                        "x": 13.0,
-                        "y": 7.5
-                    },
-                    "uuid": "7adad031-eb9c-412e-8b4d-fd5257bea2c7"
-                },
-                {
-                    "description": "Footprint R2",
-                    "pos": {
-                        "x": 16.0,
-                        "y": 7.5
-                    },
-                    "uuid": "ca0ec557-c5e1-4631-8e49-1199d9cd0425"
+                    "uuid": "cc2ad92e-030e-49c5-9883-74bc0b7d541a"
                 }
             ],
             "severity": "error",
