@@ -1,81 +1,49 @@
 # PMW3610 Trackball Daughterboard — Keyball61 Wireless (nice!nano / ZMK)
 
-Purpose-built replacement for the stock Keyball61 PMW3360 ball-reader board.
-Swaps the power-hungry PMW3360 (kills battery on wireless) for the low-power
-**PMW3610**, and adds a **MOTION** interrupt line so ZMK runs the sensor
-interrupt-driven (best battery life) instead of polled.
+Purpose-built PMW3610 replacement for the stock Keyball61 PMW3360 ball-reader
+board, for a nice!nano/ZMK wireless build (low power). Datasheet-faithful optical
+mounting. DRC-clean.
 
-Fork of Yowkees/keyball → github.com/Zendorea/keyball, branch `feat/pmw3610-wireless`.
+## Final specs
+- Outline: 23.0 x 25.0 mm (original 22x25 + 1mm on the right so the MOTION hole
+  sits on the connector's 2.54mm pitch at full pad size). 1.0mm thick, 2-layer.
+- Optics: lens slot open to the top edge, sized to the LM18-LSI lens body
+  (8.25 x 12.9mm), between the sensor pin columns. Guide-post hole (GP1, Ø0.9mm).
+  PMW3610 sensor optical center at original ball-facing position.
+- Connector: stock Keyball 7-pin (SCLK,SDIO,GND,VCC,GND,NCS,NRESET) at the EXACT
+  original 2.54mm-pitch positions -> drops into a stock Keyball main board.
+- MOTION: separate solder hole (MOT) on the same 2.54mm pitch as the connector,
+  same 1.5mm pad / 0.9mm drill. Wire it to a spare nice!nano GPIO (P0.31) on the
+  stock board, or route it as a trace on a forked main board.
+- Full PMW3610 support circuit: TLV74318 1.8V LDO (U2) + charge-pump/decoupling
+  caps + NRESET pull-up. All parts ABOVE the connector line (nothing fouls the
+  90-degree main-board joint). GND ground plane on B.Cu.
+- Placement per IPC-7351/Eurocircuits: 0603 >=2.8mm pitch, 0805 >=3.2mm.
 
-## Sensor: PMW3610DM-SUDU
-- 16-pin optical DIP, 3-wire SPI (single bidirectional SDIO), 1.8 V core.
-- Requires on-board LDO (3.3 V → 1.8 V) + charge-pump/decoupling network.
-- Lens: **LM18-LSI** (PixArt), matched to the PMW3610. NOT the 3360's LM19-LSI.
+## Datasheet Z-stack (PixArt, saved in ../../../pmw3610_datasheets/)
+- Ball surface -> lens reference plane = 2.4mm typ (2.2/2.6 min/max), +/-0.2mm DOF.
+- Ball surface -> sensor pin reference plane (PCB top copper) = 8.35mm typ.
+- PCB thickness does NOT set focus (lens indexes to the pin plane); 1.0mm chosen
+  for lens/ball clearance. Verify base-plate/housing standoff at assembly.
 
-## Electrical baseline (proven — siderakb/pmw3610-pcb, CERN-OHL-P)
-| Ref | Value | Purpose |
-|-----|-------|---------|
-| U1  | PMW3610DM-SUDU | sensor |
-| U2  | TLV74318PDBVR (SOT-23-5, 1.8 V LDO) | derive VDD from 3.3 V |
-| C1  | 3.3 µF/16 V 0805 | VDD bulk |
-| C2  | 100 nF 0603 | VDD decouple |
-| C3  | 100 nF 0603 | VDDIO decouple |
-| C4  | 100 nF 0603 | sensor bulk (near pins) |
-| C5  | 10 nF 0603 | charge pump CP–CN |
-| C6  | 10 µF 0805 | PASS_T |
-| C7  | 10 nF 0603 | VCP |
-| C8  | 1 µF 0603 | LDO IN |
-| C9  | 1 µF 0603 | LDO OUT |
-| R1  | 10 kΩ 0603 | NRESET pull-up → VDDIO |
-| R2  | 10 kΩ 0603 (optional, DNP) | MOTION pull-up → VDDIO (belt-and-suspenders; ZMK also enables internal pull-up) |
+## Reproducible build pipeline (KiCad 10 pcbnew + Freerouting 2.4.1)
+  make_footprints_v2.py  -> custom footprints (sensor, 7-pin conn, MOTION pad, lens)
+  build_board_22x25.py   -> place + net + design rules (pcbnew)
+  export_dsn.py          -> Specctra DSN
+  Freerouting (headless, -mt 1, --router.via_costs=30, -inc GND for pour route)
+  import_ses.py          -> import routed session
+  pour_gnd.py            -> B.Cu GND pour (solid pad connection)
+  finish_22x25.py        -> GND stitching vias + guide-post hole
+  kicad-cli pcb drc / export gerbers,drill
 
-VDDIO = 3.3 V (nice!nano logic). Sensor VDD = 1.8 V from U2.
+## DRC status
+0 unrouted, 0 unconnected, 0 electrical violations. 4 courtyard_overlap
+advisories remain (IPC keep-out for rework room, NOT fab-blocking; JLCPCB/PCBway
+build fine). See board_final.png.
 
-## Host connector — 8-pin, 2.54 mm pitch (matches Keyball Mac8 L-header geometry)
-Stock Keyball connector = 7 pads @ 2.54 mm pitch, 1.5×1.5 mm, single row (Mac8_L_7pin_contact_NEW2023).
-We extend to **8 pins** to carry MOTION as a real trace (no flying wire).
+## Fab (PCBway)
+2-layer, 1.0mm, HASL, qty 5-10. Upload pmw3610_daughterboard_gerbers.zip.
 
-| Pin | Net   | ZMK pin (right half) |
-|-----|-------|----------------------|
-| 1   | VCC (3.3 V) | RAW/VCC |
-| 2   | GND   | GND |
-| 3   | SCLK  | P1.11 (&spi1 SCK) |
-| 4   | SDIO  | P0.10 (&spi1 MOSI=MISO) |
-| 5   | NCS   | P0.09 (&spi1 cs, active-low) |
-| 6   | MOTION| P0.31 (GPIO IRQ, active-low + pull-up) |
-| 7   | GND   | GND (signal-return / shield) |
-| 8   | (key/NC or NRESET) | leave NC; NRESET has internal + R1 pull-up |
-
-Pitch 2.54 mm, pads 1.5×1.5 mm to match the stock mating header. Pin-1 marked on silk.
-
-## Mechanical
-- Baseline outline: 23.5 × 31.5 mm (siderakb proven), 2-layer, 1.6 mm, HASL.
-- LM18-LSI lens: optical center on board center; 4× M2 alignment/mount as needed.
-- Lens working distance (LM18-LSI): 2.2 / 2.4 / 2.6 mm (min/typ/max) lens ref plane → ball surface.
-- Verify final outline + lens-center against the Keyball ball-side case pocket before fab.
-
-## ZMK config (right half, PMW3610 on &spi1)
-```
-&spi1 {
-    compatible = "nordic,nrf-spim";
-    status = "okay";
-    pinctrl-0 = <&spi1_default>;   /* SCK P1.11, MOSI P0.10 */
-    cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;   /* NCS P0.09 */
-    trackball: trackball@0 {
-        compatible = "pixart,pmw3610";
-        reg = <0>;
-        spi-max-frequency = <2000000>;
-        irq-gpios = <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  /* MOTION P0.31 */
-    };
-};
-```
-
-## Status
-- [ ] Stage 1: daughterboard schematic
-- [ ] Stage 1: daughterboard PCB + footprints (PMW3610, 8-pin edge connector, LM18-LSI)
-- [ ] Stage 1: DRC + gerbers
-- [ ] Bench review in KiCad before PCBway order
-
-## Manufacturing notes (PCBway)
-- 2-layer, 1.6 mm, HASL, ≤100×100 mm → $5 promo tier; qty 5–10.
-- Fine-pitch sensor is hand-solderable (2.54 mm DIP pads); PCBA optional.
+## Verify before ordering
+1. Sensor/lens standoff vs your trackball housing (base-plate sets focus).
+2. GP1 guide-post position vs your actual LM18-LSI lens posts.
